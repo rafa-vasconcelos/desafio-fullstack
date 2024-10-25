@@ -31,7 +31,14 @@ defmodule DesafioFullstack.Activities do
 
   def get_random_activity do
     Activity
-    |> Repo.all()          # Fetch all activities from the database
-    |> Enum.random()      # Select a random activity from the list
+    |> Repo.all()
+    |> Enum.random()
+  end
+
+  def search_activities(query) do
+    from(a in Activity,
+      where: ilike(a.title, ^"%#{query}%") or ilike(a.description, ^"%#{query}%")
+    )
+    |> Repo.all()
   end
 end
