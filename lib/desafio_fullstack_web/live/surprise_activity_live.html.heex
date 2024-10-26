@@ -115,7 +115,7 @@
       <div id="selected-categories" class="flex flex-wrap gap-2 mt-4 w-[85%] lg:w-[60%]"></div>
     </form>
   </div>
-  <%= if length(@search_results) > 0 do %>
+  <%= if @search_query != "" and length(@search_results) > 0 do %>
     <div class="w-[85%] lg:w-[60%]">
       <h3 class="text-xl my-5">
         <%= length(@search_results) %> atividade<%= if length(@search_results) != 1, do: "s" %> encontrada<%= if length(
@@ -144,6 +144,9 @@
         <% end %>
       </ul>
     </div>
+  <% end %>
+  <%= if @search_query != "" and length(@search_results) < 1 do %>
+    <p class="w-[85%] lg:w-[60%] text-xl my-5">Nenhuma atividade encontrada</p>
   <% end %>
 
   <%!-- modal --%>
