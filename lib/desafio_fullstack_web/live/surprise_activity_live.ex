@@ -31,26 +31,39 @@ defmodule DesafioFullstackWeb.SurpriseActivityLive do
        loading: true,
        tags: @tags,
        search_results: [],
-       search_query: ""
+       search_query: "",
+       selected_tags: []
      )}
   end
 
+  def handle_event("toggle_tag", %{"tag" => tag}, socket) do
+    updated_tags =
+      case tag in socket.assigns.selected_tags do
+        # Remove the tag if it exists
+        true -> List.delete(socket.assigns.selected_tags, tag)
+        # Append the tag to the end of the list
+        false -> socket.assigns.selected_tags ++ [tag]
+      end
+
+    {:noreply, assign(socket, selected_tags: updated_tags)}
+  end
+
+  def handle_event("remove_tag", %{"tag" => tag}, socket) do
+    updated_tags = List.delete(socket.assigns.selected_tags, tag)
+
+    {:noreply, assign(socket, selected_tags: updated_tags)}
+  end
+
   def handle_event("get_new_activity", _value, socket) do
-    # Set loading state to true
     socket = assign(socket, :loading, true)
     activity = Activities.get_random_activity()
     image_url = get_random_image()
     {:noreply, assign(socket, activity: activity, image_url: image_url, loading: true)}
   end
 
-  def handle_event("image_loaded", _params, socket) do
-    # Set loading state to false when image is fully loaded
-    {:noreply, assign(socket, loading: false)}
-  end
-
   def handle_event("search_activities", %{"query" => query}, socket) do
-    # Perform search and update the search_results
-    search_results = Activities.search_activities(query)
+    selected_tags = socket.assigns.selected_tags || []
+    search_results = Activities.search_activities(query, selected_tags)
     {:noreply, assign(socket, search_results: search_results, search_query: query)}
   end
 

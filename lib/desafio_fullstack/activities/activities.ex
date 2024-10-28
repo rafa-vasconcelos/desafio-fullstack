@@ -35,11 +35,26 @@ defmodule DesafioFullstack.Activities do
     |> Enum.random()
   end
 
-  def search_activities(query) do
-    from(a in Activity,
-      where: ilike(a.title, ^"%#{query}%") or ilike(a.description, ^"%#{query}%")
-    )
-    |> Repo.all()
+  def search_activities(query, selected_tags) do
+    # Build the base query to match activities by title or description
+    base_query =
+      from(a in Activity,
+        where: ilike(a.title, ^"%#{query}%") or ilike(a.description, ^"%#{query}%")
+      )
+
+    # Execute the base query to get results
+    results = Repo.all(base_query)
+
+    # If selected_tags is empty, return all results matching the query
+    if Enum.empty?(selected_tags) do
+      results
+    else
+      # Filter results to include only those that contain all selected tags
+      Enum.filter(results, fn activity ->
+        # Check if the activity contains all selected tags
+        Enum.all?(selected_tags, &(&1 in activity.tags))
+      end)
+    end
   end
 
   def get_activity_by_title(title) do
