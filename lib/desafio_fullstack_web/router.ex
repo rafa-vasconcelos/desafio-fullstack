@@ -17,11 +17,11 @@ defmodule DesafioFullstackWeb.Router do
   scope "/", DesafioFullstackWeb do
     pipe_through :browser
 
-    # Change the home route to render the SurpriseActivityLive LiveView
     live "/", SurpriseActivityLive
 
-    # You can still keep other routes, for example:
     live "/activities/surprise", SurpriseActivityLive
+
+    live "/activity/:title", ActivityLive.Show, :show
   end
 
   if Application.compile_env(:desafio_fullstack, :dev_routes) do

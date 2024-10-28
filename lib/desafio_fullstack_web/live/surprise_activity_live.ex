@@ -1,6 +1,7 @@
 defmodule DesafioFullstackWeb.SurpriseActivityLive do
   use Phoenix.LiveView
   alias DesafioFullstack.Activities
+  import DesafioFullstack.Utils.Slugify
 
   @image_base_url "https://picsum.photos/1200/400.webp"
   @tags [

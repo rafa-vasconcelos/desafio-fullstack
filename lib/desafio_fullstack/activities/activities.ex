@@ -41,4 +41,8 @@ defmodule DesafioFullstack.Activities do
     )
     |> Repo.all()
   end
+
+  def get_activity_by_title(title) do
+    Repo.get_by(Activity, title: title)
+  end
 end

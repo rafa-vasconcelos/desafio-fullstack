@@ -1,7 +1,9 @@
-<div class="flex flex-col gap-1 py-16 lg:py-24 mx-auto items-center text-[#364050] justify-center w-full px-5">
-  <h1 class="text-3xl text-black lg:text-6xl font-semibold">
-    O que fazer em <span class="text-[#3B81F6]">Maceió</span>?
-  </h1>
+<main class="flex flex-col gap-1 py-16 lg:py-24 mx-auto items-center text-[#364050] justify-center w-full px-5">
+  <header>
+    <h1 class="text-3xl text-black lg:text-6xl font-semibold">
+      O que fazer em <span class="text-[#3B81F6]">Maceió</span>?
+    </h1>
+  </header>
   <div class="flex flex-col gap-4 w-full items-center mt-20" onclick="hideCategories()">
     <div class="flex justify-between px-1 w-[85%] lg:w-[60%]">
       <h2 class="text-base lg:text-2xl flex items-center gap-1">
@@ -43,7 +45,8 @@
       </button>
     </div>
     <!-- início do card -->
-    <div
+    <.link
+      href={"/activity/#{slugify(@activity.title)}"}
       class="p-4 lg:p-8 gap-6 flex flex-col justify-end items-start rounded-xl lg:min-h-[400px] w-[85%] min-h-[250px] lg:w-[60%] border border-gray-200"
       style={ "background-image: url('#{@image_url}'); background-size: cover; background-position: center;" }
     >
@@ -52,12 +55,12 @@
       </p>
       <div class="flex gap-1 flex-wrap">
         <%= for tag <- @activity.tags do %>
-          <button class="bg-[#bdbcb7] rounded-xl px-2 text-xs lg:text-base hover:opacity-90">
+          <button class="bg-[#d1d5d8] rounded-xl px-2 text-xs lg:text-base hover:opacity-90">
             <%= tag %>
           </button>
         <% end %>
       </div>
-    </div>
+    </.link>
     <!-- fim do card -->
   </div>
   <!-- Busca de atividades -->
@@ -128,7 +131,8 @@
 
       <ul class="flex flex-col gap-2">
         <%= for {activity, index} <- Enum.with_index(@search_results) do %>
-          <div
+          <.link
+            href={"/activity/#{slugify(activity.title)}"}
             class="p-4 lg:p-8 gap-6 flex flex-col justify-end items-start rounded-xl lg:min-h-[180px] w-full min-h-[150px] border border-gray-200"
             style={"background-image: url('https://picsum.photos/600/400?random=#{index + 1}'); background-size: cover; background-position: center;" }
           >
@@ -137,10 +141,10 @@
             </p>
             <div class="hidden lg:flex gap-1">
               <%= for tag <- activity.tags do %>
-                <button class="bg-[#bdbcb7] rounded-xl px-2"><%= tag %></button>
+                <button class="bg-[#d1d5d8] rounded-xl px-2"><%= tag %></button>
               <% end %>
             </div>
-          </div>
+          </.link>
         <% end %>
       </ul>
     </div>
@@ -225,7 +229,7 @@
 
       selectedCategories.forEach(category => {
         const tagButton = document.createElement("button");
-        tagButton.className = "bg-[#3B81F6] rounded-xl px-2 text-xs lg:text-base hover:opacity-90";
+        tagButton.className = "bg-[#d1d5d8] rounded-xl px-2 text-xs lg:text-base hover:opacity-90";
         tagButton.textContent = category;
 
         // Remove category on click
@@ -241,4 +245,4 @@
       });
     }
   </script>
-</div>
+</main>
